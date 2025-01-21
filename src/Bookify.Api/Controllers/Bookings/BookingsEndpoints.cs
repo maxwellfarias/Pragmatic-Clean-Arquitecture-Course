@@ -24,7 +24,7 @@ public static class BookingsEndpoints
 
 
 
-
+    [EndpointName("GetBooking")]
     public static async Task<Results<Ok<BookingResponse>,NotFound>> 
         GetBooking(Guid id, ISender sender, CancellationToken ct)
     {

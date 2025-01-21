@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bookify.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230914003234_Create_Database")]
+    [Migration("20240603003227_Create_Database")]
     partial class Create_Database
     {
         /// <inheritdoc />
@@ -28,7 +28,6 @@ namespace Bookify.Infrastructure.Migrations
             modelBuilder.Entity("Bookify.Domain.Apartments.Apartment", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -68,13 +67,16 @@ namespace Bookify.Infrastructure.Migrations
             modelBuilder.Entity("Bookify.Domain.Bookings.Booking", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
                     b.Property<Guid>("ApartmentId")
                         .HasColumnType("uuid")
                         .HasColumnName("apartment_id");
+
+                    b.Property<Guid?>("ApartmentId1")
+                        .HasColumnType("uuid")
+                        .HasColumnName("apartment_id1");
 
                     b.Property<DateTime?>("CancelledOnUtc")
                         .HasColumnType("timestamp with time zone")
@@ -104,14 +106,24 @@ namespace Bookify.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
+                    b.Property<Guid?>("UserId1")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id1");
+
                     b.HasKey("Id")
                         .HasName("pk_bookings");
 
                     b.HasIndex("ApartmentId")
                         .HasDatabaseName("ix_bookings_apartment_id");
 
+                    b.HasIndex("ApartmentId1")
+                        .HasDatabaseName("ix_bookings_apartment_id1");
+
                     b.HasIndex("UserId")
                         .HasDatabaseName("ix_bookings_user_id");
+
+                    b.HasIndex("UserId1")
+                        .HasDatabaseName("ix_bookings_user_id1");
 
                     b.ToTable("bookings", (string)null);
                 });
@@ -119,7 +131,6 @@ namespace Bookify.Infrastructure.Migrations
             modelBuilder.Entity("Bookify.Domain.Reviews.Review", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -127,9 +138,17 @@ namespace Bookify.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("apartment_id");
 
+                    b.Property<Guid?>("ApartmentId1")
+                        .HasColumnType("uuid")
+                        .HasColumnName("apartment_id1");
+
                     b.Property<Guid>("BookingId")
                         .HasColumnType("uuid")
                         .HasColumnName("booking_id");
+
+                    b.Property<Guid?>("BookingId1")
+                        .HasColumnType("uuid")
+                        .HasColumnName("booking_id1");
 
                     b.Property<string>("Comment")
                         .IsRequired()
@@ -149,17 +168,30 @@ namespace Bookify.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
+                    b.Property<Guid>("UserId1")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id1");
+
                     b.HasKey("Id")
                         .HasName("pk_reviews");
 
                     b.HasIndex("ApartmentId")
                         .HasDatabaseName("ix_reviews_apartment_id");
 
+                    b.HasIndex("ApartmentId1")
+                        .HasDatabaseName("ix_reviews_apartment_id1");
+
                     b.HasIndex("BookingId")
                         .HasDatabaseName("ix_reviews_booking_id");
 
+                    b.HasIndex("BookingId1")
+                        .HasDatabaseName("ix_reviews_booking_id1");
+
                     b.HasIndex("UserId")
                         .HasDatabaseName("ix_reviews_user_id");
+
+                    b.HasIndex("UserId1")
+                        .HasDatabaseName("ix_reviews_user_id1");
 
                     b.ToTable("reviews", (string)null);
                 });
@@ -167,7 +199,6 @@ namespace Bookify.Infrastructure.Migrations
             modelBuilder.Entity("Bookify.Domain.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -183,6 +214,11 @@ namespace Bookify.Infrastructure.Migrations
                         .HasColumnType("character varying(200)")
                         .HasColumnName("first_name");
 
+                    b.Property<string>("IdentityId")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("identity_id");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -196,7 +232,46 @@ namespace Bookify.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("ix_users_email");
 
+                    b.HasIndex("IdentityId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_users_identity_id");
+
                     b.ToTable("users", (string)null);
+                });
+
+            modelBuilder.Entity("Bookify.Infrastructure.Outbox.OutboxMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("json")
+                        .HasColumnName("content");
+
+                    b.Property<string>("Error")
+                        .HasColumnType("text")
+                        .HasColumnName("error");
+
+                    b.Property<DateTime>("OccurredOnUtc")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("occurred_on_utc");
+
+                    b.Property<DateTime?>("ProcessedOnUtc")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("processed_on_utc");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("type");
+
+                    b.HasKey("Id")
+                        .HasName("pk_outbox_messages");
+
+                    b.ToTable("outbox_messages", (string)null);
                 });
 
             modelBuilder.Entity("Bookify.Domain.Apartments.Apartment", b =>
@@ -306,14 +381,24 @@ namespace Bookify.Infrastructure.Migrations
                         .HasForeignKey("ApartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_bookings_apartments_apartment_id");
+                        .HasConstraintName("fk_bookings_apartments_apartment_id2");
+
+                    b.HasOne("Bookify.Domain.Apartments.Apartment", "Apartment")
+                        .WithMany("Bookings")
+                        .HasForeignKey("ApartmentId1")
+                        .HasConstraintName("fk_bookings_apartments_apartment_temp_id");
 
                     b.HasOne("Bookify.Domain.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_bookings_users_user_id");
+                        .HasConstraintName("fk_bookings_users_user_id2");
+
+                    b.HasOne("Bookify.Domain.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1")
+                        .HasConstraintName("fk_bookings_user_user_temp_id");
 
                     b.OwnsOne("Bookify.Domain.Apartments.Money", "AmenitiesUpCharge", b1 =>
                         {
@@ -437,6 +522,8 @@ namespace Bookify.Infrastructure.Migrations
                     b.Navigation("AmenitiesUpCharge")
                         .IsRequired();
 
+                    b.Navigation("Apartment");
+
                     b.Navigation("CleaningFee")
                         .IsRequired();
 
@@ -448,6 +535,8 @@ namespace Bookify.Infrastructure.Migrations
 
                     b.Navigation("TotalPrice")
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Bookify.Domain.Reviews.Review", b =>
@@ -457,21 +546,51 @@ namespace Bookify.Infrastructure.Migrations
                         .HasForeignKey("ApartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_reviews_apartments_apartment_id");
+                        .HasConstraintName("fk_reviews_apartments_apartment_id2");
+
+                    b.HasOne("Bookify.Domain.Apartments.Apartment", "Apartment")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ApartmentId1")
+                        .HasConstraintName("fk_reviews_apartments_apartment_temp_id1");
 
                     b.HasOne("Bookify.Domain.Bookings.Booking", null)
                         .WithMany()
                         .HasForeignKey("BookingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_reviews_bookings_booking_id");
+                        .HasConstraintName("fk_reviews_bookings_booking_id2");
+
+                    b.HasOne("Bookify.Domain.Bookings.Booking", "Booking")
+                        .WithMany()
+                        .HasForeignKey("BookingId1")
+                        .HasConstraintName("fk_reviews_bookings_booking_temp_id");
 
                     b.HasOne("Bookify.Domain.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_reviews_users_user_id");
+                        .HasConstraintName("fk_reviews_users_user_id2");
+
+                    b.HasOne("Bookify.Domain.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_reviews_user_user_temp_id1");
+
+                    b.Navigation("Apartment");
+
+                    b.Navigation("Booking");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Bookify.Domain.Apartments.Apartment", b =>
+                {
+                    b.Navigation("Bookings");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

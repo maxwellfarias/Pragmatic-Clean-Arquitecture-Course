@@ -1,0 +1,20 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+
+@keycloackHost = http://localhost:18080
+
+### Access Token for User
+POST {{keycloackHost}}/realms/bookify/protocol/openid-connect/token HTTP/1.1
+Host: localhost:18080
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 152
+
+client_id=bookify-auth-client&grant_type=password&client_secret=3E3yvXaYppoYBF3Ir6DgtEzADKKzSurZ&scope=openid&username=test%40test.com&password=Test1234
+
+
+### Admin Token
+POST {{keycloackHost}}/realms/bookify/protocol/openid-connect/token HTTP/1.1
+Host: localhost:18080
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 120
+
+client_id=bookify-admin-client&grant_type=client_credentials&client_secret=UZDmbNxWmV4TlpaCRcju6pMRsyuV3er1&scope=openid

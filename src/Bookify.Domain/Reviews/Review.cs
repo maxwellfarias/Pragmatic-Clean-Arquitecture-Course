@@ -32,22 +32,22 @@ public sealed class Review : Entity<ReviewId>
         CreatedOnUtc = createdOnUtc;
     }
 
-    public ApartmentId ApartmentId { get; private set; }
+    public ApartmentId ApartmentId { get; private set; } = default!;
 
-    public BookingId BookingId { get; private set; }
+    public BookingId BookingId { get; private set; } = default!;
 
-    public UserId UserId { get; private set; }
+    public UserId UserId { get; private set; } = default!;
 
-    public Rating Rating { get; private set; }
+    public Rating Rating { get; private set; } = default!;
 
-    public Comment Comment { get; private set; }
+    public Comment Comment { get; private set; } = default!;
 
-    public DateTime CreatedOnUtc { get; private set; }
+    public DateTime CreatedOnUtc { get; private set; } = default!;
 
 
     public Apartment? Apartment { get; private set; }
     public Booking? Booking { get; private set; }
-    public User User { get; private set; }
+    public User User { get; private set; } = default!;
 
 
 

@@ -18,6 +18,8 @@ public class ApartmentsController : ControllerBase
     }
 
     [HttpGet]
+    [EndpointDescription("Jaboa ima vapsdasd")]
+    
     public async Task<IActionResult> SearchApartments(
         DateOnly startDate,
         DateOnly endDate,

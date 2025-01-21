@@ -1,0 +1,48 @@
+@baseApiUrl = https://localhost:5001/api
+@token = eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJiMWR5SUMweEZCbmhaWnNsSC1ZNzhadFlENWJXRkRrMWR6ajg0aUJhQ1c4In0.eyJleHAiOjE3MTczNzk2MTUsImlhdCI6MTcxNzM3NjAxNSwianRpIjoiYzY0MmNhZDAtY2IyZC00YjFlLThkZDgtNjcxNzczMmQ5YTM0IiwiaXNzIjoiaHR0cDovL2Jvb2tpZnktaWRwOjgwODAvcmVhbG1zL2Jvb2tpZnkiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiMjg5ZTI0MDMtN2NlYS00NDMyLWJiZmMtMjYxZjcyNjg5YThjIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYm9va2lmeS1hdXRoLWNsaWVudCIsInNlc3Npb25fc3RhdGUiOiJhZjZjZjZmMi03OWIwLTQxMmEtYjg3My1kMjhlYjJmMDUyNzAiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsImRlZmF1bHQtcm9sZXMtYm9va2lmeSJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJzaWQiOiJhZjZjZjZmMi03OWIwLTQxMmEtYjg3My1kMjhlYjJmMDUyNzAiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmFtZSI6InN0cmluZyBzdHJpbmciLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ0ZXN0MUB0ZXN0LmNvbSIsImdpdmVuX25hbWUiOiJzdHJpbmciLCJmYW1pbHlfbmFtZSI6InN0cmluZyIsImVtYWlsIjoidGVzdDFAdGVzdC5jb20ifQ.rm1OXVTyp5scqcrSKklXyt2ICG2a2VfmNBXojMc5wRTymd6cyBFCozqmjC5agmVQ4CsbyDoWGpdvaEY6mrsYsgFzjy3qWm5cMs9HK98a24M1_4zY-gPrQT1q7wyCcB3gCn8FpEfuSDZpe6IMQHiOKXv1SQlSFtx9tLWIX3FD5qIloTK3n_C6Y3tSOTia-Ydzc340ZKtkqbFQB4LjJi2p8Gsck2dg-48Hks2GzRyW9XA1I4xSnBsXzZV5AgKmqv8H4-7798W5uA6utcYtEfYVXJn5538_lR40vlLu804UcSVOz74PhIohvjo-2uSDDg_cuVpIu8X4bdRYG9wrsHp2uA
+
+### Apartments
+GET {{baseApiUrl}}/apartments?startDate=2024-01-01&endDate=2024-06-01
+Accepts: */*
+Authorization: Bearer {{token}}
+###
+
+### Reserve booking
+POST {{baseApiUrl}}/bookings HTTP/1.1
+Host: localhost:5001
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "apartmentId": "fe3977e1-5b46-49e1-abca-b2fe16c51fbf",
+    "userId": "a3d5ee3f-c8dd-4c8c-8dcc-80048d570c4d",
+    "startDate": "2023-09-26",
+    "endDate": "2023-09-29"
+}
+
+
+
+### User Login
+
+POST {{baseApiUrl}}/users/login HTTP/1.1
+Accept: */*
+Content-Type: application/json
+
+{
+  "email": "test1@test.com",
+  "password": "Test1234"
+}
+
+
+### User Register
+# @name userLogin
+POST {{baseApiUrl}}/users/register HTTP/1.1
+Accept: */*
+Content-Type: application/json
+
+{
+  "email": "test1@test.com",
+  "firstName": "string",
+  "lastName": "string",
+  "password": "Test1234"
+}

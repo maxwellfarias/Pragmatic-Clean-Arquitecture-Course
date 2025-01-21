@@ -17,9 +17,9 @@ public sealed class User : Entity<UserId>
         Email = email;
     }
 
-    public FirstName FirstName { get; private set; }
-    public LastName LastName { get; private set; }
-    public Email Email { get; private set; }
+    public FirstName FirstName { get; private set; } = default!;
+    public LastName LastName { get; private set; } = default!;
+    public Email Email { get; private set; } = default!;
     public string IdentityId { get; private set; } = string.Empty;
 
     public static User Create(FirstName firstname, LastName lastName, Email email)

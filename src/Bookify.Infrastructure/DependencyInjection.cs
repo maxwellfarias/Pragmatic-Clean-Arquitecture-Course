@@ -2,6 +2,7 @@ using Bookify.Application.Abstractions.Authentication;
 using Bookify.Application.Abstractions.Clock;
 using Bookify.Application.Abstractions.Data;
 using Bookify.Application.Abstractions.Email;
+using Bookify.Domain;
 using Bookify.Domain.Abstractions;
 using Bookify.Domain.Apartments;
 using Bookify.Domain.Bookings;
@@ -69,6 +70,8 @@ public static class DependencyInjection
         services.AddScoped<IBookingRepository, BookingRepository>();
 
         #endregion
+
+        services.AddTransient<IPasswordCipherService, PasswordCipherService>();
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
     }
