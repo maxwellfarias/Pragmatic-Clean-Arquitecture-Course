@@ -4,7 +4,6 @@ using Bookify.Domain.Abstractions;
 using Bookify.Domain.Apartments;
 using Bookify.Domain.Bookings;
 using Bookify.Domain.Users;
-using FluentAssertions;
 using Moq;
 
 namespace Bookify.Application.UnitTests.Bookings;
@@ -43,7 +42,7 @@ public class ReserveBookingTests
         var result = await handler.Handle(command, default);
 
         // Assert
-        result.Error.Should().Be(UserErrors.NotFound);
+        Assert.Equal(UserErrors.NotFound, result.Error);
     }
 
     [Fact]
@@ -79,6 +78,6 @@ public class ReserveBookingTests
         var result = await handler.Handle(command, default);
 
         // Assert
-        result.Error.Should().Be(ApartmentErrors.NotFound);
+        Assert.Equal(ApartmentErrors.NotFound, result.Error);
     }
 }

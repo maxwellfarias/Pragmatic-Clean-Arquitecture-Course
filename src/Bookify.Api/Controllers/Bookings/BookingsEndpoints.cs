@@ -1,9 +1,12 @@
 ﻿using Bookify.Application.Bookings.GetBooking;
 using Bookify.Application.Bookings.ReserveBooking;
 using Bookify.Domain.Abstractions;
+using Bookify.Domain.Users;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Bookify.Api.Controllers.Bookings;
 
@@ -36,14 +39,16 @@ public static class BookingsEndpoints
     }
 
     public static async Task<Results<CreatedAtRoute<Guid>, BadRequest<Error>>> 
-        ReserveBooking(
+        ReserveBooking(HttpContext httpContext,
         ReserveBookingRequest request,
         ISender sender,
         CancellationToken ct)
     {
+        var userId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
         var command = new ReserveBookingCommand(
             request.ApartmentId,
-            request.UserId,
+            Guid.Parse(userId!),
             request.StartDate,
             request.EndDate);
 

@@ -12,7 +12,9 @@ public class ApartmentConfiguration : IEntityTypeConfiguration<Apartment>
         builder.ToTable("apartments");
 
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).HasConversion(
+        builder.Property(x => x.Id)
+            .ValueGeneratedNever()
+            .HasConversion(
             (x) => x.Value,
             (g) => ApartmentId.FromValue(g)
         );
@@ -52,7 +54,6 @@ public class ApartmentConfiguration : IEntityTypeConfiguration<Apartment>
                     code => Currency.FromCode(code)
                 );
         });
-        
-        
+
     }
 }

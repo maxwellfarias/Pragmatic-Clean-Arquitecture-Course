@@ -13,7 +13,9 @@ internal sealed class BookingConfiguration : IEntityTypeConfiguration<Booking>
         builder.ToTable("bookings");
 
         builder.HasKey(booking => booking.Id);
-        builder.Property(x => x.Id).HasConversion(
+        builder.Property(x => x.Id)
+            .ValueGeneratedNever()
+            .HasConversion(
             (x) => x.Value,
             (g) => BookingId.FromValue(g)
         );
@@ -48,12 +50,28 @@ internal sealed class BookingConfiguration : IEntityTypeConfiguration<Booking>
 
         builder.OwnsOne(booking => booking.Duration);
 
-        builder.HasOne<Apartment>()
-            .WithMany()
-            .HasForeignKey(booking => booking.ApartmentId);
 
-        builder.HasOne<User>()
-            .WithMany()
-            .HasForeignKey(booking => booking.UserId);
+        //builder.HasOne<Apartment>()
+        //    .WithMany()
+        //    .HasForeignKey(booking => booking.ApartmentId)
+        //    .HasPrincipalKey(apartment => apartment.Id);
+
+        builder.Property(booking => booking.ApartmentId)
+            .HasConversion(id => id.Value, value => ApartmentId.FromValue(value))
+            .IsRequired();
+
+        builder.Property(booking => booking.UserId)
+            .HasConversion(id => id.Value, value => UserId.FromValue(value))
+            .IsRequired();
+
+
+        //builder.HasOne<Apartment>()
+        //    .WithMany(x=> x.Bookings)
+        //    .HasForeignKey(booking => booking.ApartmentId)
+        //    .HasPrincipalKey(apartment => apartment.Id);
+
+        //builder.HasOne<User>()
+        //    .WithMany()
+        //    .HasForeignKey(booking => booking.UserId);
     }
 }

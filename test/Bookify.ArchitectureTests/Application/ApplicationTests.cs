@@ -1,5 +1,4 @@
 ﻿using Bookify.Application.Abstractions.Messaging;
-using FluentAssertions;
 using FluentValidation;
 using NetArchTest.Rules;
 
@@ -18,7 +17,7 @@ public class ApplicationTests : BaseTest
             .Should().HaveNameEndingWith("CommandHandler")
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        Assert.True(result.IsSuccessful);
     }
 
     [Fact]
@@ -31,7 +30,7 @@ public class ApplicationTests : BaseTest
             .HaveNameEndingWith("QueryHandler")
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        Assert.True(result.IsSuccessful);
     }
 
     [Fact]
@@ -44,6 +43,6 @@ public class ApplicationTests : BaseTest
             .HaveNameEndingWith("Validator")
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        Assert.True(result.IsSuccessful);
     }
 }

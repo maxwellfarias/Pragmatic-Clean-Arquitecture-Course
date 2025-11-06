@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Bookify.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Create_Database : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -89,31 +89,19 @@ namespace Bookify.Infrastructure.Migrations
                     confirmed_on_utc = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     rejected_on_utc = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     completed_on_utc = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    cancelled_on_utc = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    apartment_id1 = table.Column<Guid>(type: "uuid", nullable: true),
-                    user_id1 = table.Column<Guid>(type: "uuid", nullable: true)
+                    cancelled_on_utc = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_bookings", x => x.id);
                     table.ForeignKey(
-                        name: "fk_bookings_apartments_apartment_id2",
+                        name: "fk_bookings_apartments_apartment_id",
                         column: x => x.apartment_id,
                         principalTable: "apartments",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "fk_bookings_apartments_apartment_temp_id",
-                        column: x => x.apartment_id1,
-                        principalTable: "apartments",
-                        principalColumn: "id");
-                    table.ForeignKey(
-                        name: "fk_bookings_user_user_temp_id",
-                        column: x => x.user_id1,
-                        principalTable: "users",
-                        principalColumn: "id");
-                    table.ForeignKey(
-                        name: "fk_bookings_users_user_id2",
+                        name: "fk_bookings_users_user_id",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
@@ -130,44 +118,25 @@ namespace Bookify.Infrastructure.Migrations
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     rating = table.Column<int>(type: "integer", nullable: false),
                     comment = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    created_on_utc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    apartment_id1 = table.Column<Guid>(type: "uuid", nullable: true),
-                    booking_id1 = table.Column<Guid>(type: "uuid", nullable: true),
-                    user_id1 = table.Column<Guid>(type: "uuid", nullable: false)
+                    created_on_utc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_reviews", x => x.id);
                     table.ForeignKey(
-                        name: "fk_reviews_apartments_apartment_id2",
+                        name: "fk_reviews_apartments_apartment_id",
                         column: x => x.apartment_id,
                         principalTable: "apartments",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "fk_reviews_apartments_apartment_temp_id1",
-                        column: x => x.apartment_id1,
-                        principalTable: "apartments",
-                        principalColumn: "id");
-                    table.ForeignKey(
-                        name: "fk_reviews_bookings_booking_id2",
+                        name: "fk_reviews_bookings_booking_id",
                         column: x => x.booking_id,
                         principalTable: "bookings",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "fk_reviews_bookings_booking_temp_id",
-                        column: x => x.booking_id1,
-                        principalTable: "bookings",
-                        principalColumn: "id");
-                    table.ForeignKey(
-                        name: "fk_reviews_user_user_temp_id1",
-                        column: x => x.user_id1,
-                        principalTable: "users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "fk_reviews_users_user_id2",
+                        name: "fk_reviews_users_user_id",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
@@ -180,19 +149,9 @@ namespace Bookify.Infrastructure.Migrations
                 column: "apartment_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_bookings_apartment_id1",
-                table: "bookings",
-                column: "apartment_id1");
-
-            migrationBuilder.CreateIndex(
                 name: "ix_bookings_user_id",
                 table: "bookings",
                 column: "user_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_bookings_user_id1",
-                table: "bookings",
-                column: "user_id1");
 
             migrationBuilder.CreateIndex(
                 name: "ix_reviews_apartment_id",
@@ -200,29 +159,14 @@ namespace Bookify.Infrastructure.Migrations
                 column: "apartment_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_reviews_apartment_id1",
-                table: "reviews",
-                column: "apartment_id1");
-
-            migrationBuilder.CreateIndex(
                 name: "ix_reviews_booking_id",
                 table: "reviews",
                 column: "booking_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_reviews_booking_id1",
-                table: "reviews",
-                column: "booking_id1");
-
-            migrationBuilder.CreateIndex(
                 name: "ix_reviews_user_id",
                 table: "reviews",
                 column: "user_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_reviews_user_id1",
-                table: "reviews",
-                column: "user_id1");
 
             migrationBuilder.CreateIndex(
                 name: "ix_users_email",

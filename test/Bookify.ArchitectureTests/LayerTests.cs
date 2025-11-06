@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿
 using NetArchTest.Rules;
 
 namespace Bookify.ArchitectureTests;
@@ -13,7 +13,7 @@ public class LayerTests : BaseTest
             .NotHaveDependencyOn(ApplicationAssembly.GetName().Name)
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        Assert.True(result.IsSuccessful);
     }
 
     [Fact]
@@ -24,7 +24,7 @@ public class LayerTests : BaseTest
             .NotHaveDependencyOn(ApplicationAssembly.GetName().Name)
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        Assert.True(result.IsSuccessful);
     }
 
     [Fact]
@@ -35,6 +35,6 @@ public class LayerTests : BaseTest
             .NotHaveDependencyOn(InfrastructureAssembly.GetName().Name)
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        Assert.True(result.IsSuccessful);
     }
 }

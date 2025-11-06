@@ -35,6 +35,6 @@ public sealed class Apartment : Entity<ApartmentId>
     public List<Amenity> Amenities { get; private set; } = new();
 
 
-    public ICollection<Booking> Bookings { get; private set; } = default;
-    public ICollection<Review> Reviews { get; private set; } = default;
+    public ICollection<Booking> Bookings { get; private set; } = default!;
+    public ICollection<Review> Reviews { get; private set; } = default!;
 }

@@ -1,7 +1,7 @@
 ﻿using Bookify.Domain.UnitTests.Infrastructure;
 using Bookify.Domain.Users;
 using Bookify.Domain.Users.Events;
-using FluentAssertions;
+
 
 namespace Bookify.Domain.UnitTests.Users;
 
@@ -21,6 +21,6 @@ public class UserBaseTests : BaseTest
         // Assert
         var userCreatedDomainEvent = AssertDomainEventWasPublished<UserCreatedDomainEvent>(user);
 
-        userCreatedDomainEvent.UserId.Should().Be(user.Id);
+        Assert.Equal(user.Id, userCreatedDomainEvent.UserId);
     }
 }

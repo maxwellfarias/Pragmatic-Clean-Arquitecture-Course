@@ -1,5 +1,4 @@
 ﻿using Bookify.Domain.Abstractions;
-using FluentAssertions;
 using NetArchTest.Rules;
 
 namespace Bookify.ArchitectureTests.Domain;
@@ -15,6 +14,6 @@ public class DomainTests : BaseTest
             .Should().HaveNameEndingWith("DomainEvent")
             .GetResult();
 
-        result.IsSuccessful.Should().BeTrue();
+        Assert.True(result.IsSuccessful);
     }
 }

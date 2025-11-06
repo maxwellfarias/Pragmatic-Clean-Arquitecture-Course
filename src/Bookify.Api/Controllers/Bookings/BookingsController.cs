@@ -2,6 +2,7 @@
 using Bookify.Application.Bookings.ReserveBooking;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Bookify.Api.Controllers.Bookings;
 
@@ -27,9 +28,13 @@ public class BookingsController : ControllerBase {
     public async Task<IActionResult> ReserveBooking(
         ReserveBookingRequest request,
         CancellationToken cancellationToken) {
+
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+
         var command = new ReserveBookingCommand(
             request.ApartmentId,
-            request.UserId,
+            Guid.Parse(userId!),
             request.StartDate,
             request.EndDate);
 
